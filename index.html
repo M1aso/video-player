@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Player Sample</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr/dist/plyr.css" />
+  <style>
+    body { margin: 2rem; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <h1>Plyr Video Demo</h1>
+  <video id="player" playsinline preload="metadata"></video>
+  <script src="https://cdn.jsdelivr.net/npm/plyr/dist/plyr.polyfilled.js"></script>
+  <script>
+    async function initPlayer() {
+      const config = await fetch('video.json').then(r => r.json());
+      const player = new Plyr('#player', {
+        autoplay: config.autoPlay,
+        muted: config.autoPlay,
+        controls: [
+          'play','progress','current-time','duration','mute','volume','fullscreen'
+        ],
+        clickToPlay: false
+      });
+      player.source = {
+        type: 'video',
+        sources: [{ src: config.videoUrl, type: 'video/mp4' }],
+        poster: config.posterUrl
+      };
+    }
+    document.addEventListener('DOMContentLoaded', initPlayer);
+  </script>
+</body>
+</html>
